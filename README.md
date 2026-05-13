@@ -71,6 +71,41 @@ The workflow in [.github/workflows/ceedling.yml](.github/workflows/ceedling.yml)
 
 A failed test causes the workflow to fail, blocking merges until tests pass.
 
+## Replicating this setup in a new project
+
+**1. Initialize Ceedling**
+
+```sh
+gem install ceedling
+ceedling new my-project
+cd my-project
+```
+
+This creates the `src/`, `test/`, and `project.yml` scaffold automatically.
+
+**2. Enable gcov in project.yml**
+
+In `project.yml`, find the `:plugins: :enabled:` list and add `gcov` and `report_tests_pretty_stdout`. Also add `:gcov:` config block with `gcovr` as the utility. Copy the relevant sections from this repo's [project.yml](project.yml) as a reference.
+
+**3. Copy the workflow**
+
+Copy [.github/workflows/ceedling.yml](.github/workflows/ceedling.yml) into your new repo unchanged. It is not project-specific.
+
+**4. Set up the coverage badge** (see section below)
+
+Create a new Gist for the new repo — do not reuse the same Gist ID across projects or they will overwrite each other.
+
+**5. Update the README badge URLs**
+
+Replace the GitHub org/repo name and Gist ID in the two badge URLs at the top of your README:
+
+```
+https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ceedling.yml/badge.svg
+https://gist.githubusercontent.com/YOUR_USERNAME/YOUR_GIST_ID/raw/coverage.json
+```
+
+---
+
 ## Badge setup (one-time)
 
 The coverage badge requires two one-time steps:
