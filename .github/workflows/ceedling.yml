@@ -14,17 +14,48 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3.6'  # Use the Ruby version you prefer
+        ruby-version: '3.3.6'
 
-    - name: Install dependencies
-      run: |
-        gem install ceedling
+    - name: Install Ceedling
+      run: gem install ceedling
 
-    - name: Run Ceedling tests
+    - name: Install gcovr
+      run: pip install gcovr
+
+    - name: Run tests with coverage
+      run: ceedling gcov:all
+
+    - name: Generate coverage summary
       run: |
-        ceedling test:all  # Run all tests using Ceedling
+        gcovr --json-summary-pretty --filter src/ -o coverage_summary.json
+        python3 << 'EOF'
+        import json, os
+        d = json.load(open('coverage_summary.json'))
+        pct = round(d['line_percent'], 1)
+        color = 'brightgreen' if pct >= 90 else 'yellow' if pct >= 75 else 'red'
+        with open(os.environ['GITHUB_ENV'], 'a') as f:
+            f.write(f'COVERAGE={pct}\n')
+            f.write(f'COVERAGE_COLOR={color}\n')
+        EOF
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: build/artifacts/gcov/
+
+    - name: Update coverage badge
+      if: github.ref == 'refs/heads/main'
+      uses: schneegans/dynamic-badges-action@v1.7.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: ${{ secrets.GIST_ID }}
+        filename: coverage.json
+        label: coverage
+        message: ${{ env.COVERAGE }}%
+        color: ${{ env.COVERAGE_COLOR }}
