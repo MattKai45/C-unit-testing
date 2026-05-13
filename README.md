@@ -1,7 +1,7 @@
 # C Unit Testing with Ceedling
 
 [![CI](https://github.com/MattKai45/C-unit-testing/actions/workflows/ceedling.yml/badge.svg)](https://github.com/MattKai45/C-unit-testing/actions/workflows/ceedling.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MattKai45/REPLACE_WITH_GIST_ID/raw/coverage.json)](https://github.com/MattKai45/C-unit-testing/actions/workflows/ceedling.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MattKai45/cd17d2df72e6b3adda1a9f8e607d5154/raw/coverage.json)](https://github.com/MattKai45/C-unit-testing/actions/workflows/ceedling.yml)
 
 A template repository for writing and running C unit tests using [Ceedling](https://github.com/ThrowTheSwitch/Ceedling), with automated test execution and coverage reporting via GitHub Actions on every push or pull request to `main`.
 
@@ -85,6 +85,6 @@ Go to **GitHub Settings → Developer settings → Personal access tokens → To
 
 **3. Update the badge URL in this README**
 
-Replace `REPLACE_WITH_GIST_ID` in the badge URL at the top of this file with your actual Gist ID.
+Replace `cd17d2df72e6b3adda1a9f8e607d5154` in the badge URL at the top of this file with your actual Gist ID.
 
 After the first successful CI run on `main`, the badge will show the live coverage percentage and color (green ≥ 90%, yellow ≥ 75%, red below 75%).
